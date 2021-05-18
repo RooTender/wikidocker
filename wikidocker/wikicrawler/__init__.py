@@ -52,4 +52,37 @@ class WikiCrawler:
         return links
 
     def get_data(self):
-        return None
+        url = "https://simple.wikipedia.org/wiki/Main_Page"
+
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = soup.find(id='mf-know')
+        soup = soup.find('tbody').findNext('tbody')
+        soup = soup.find_all('td')
+
+        data = []
+
+        for tag in soup:
+            title = tag.find('b')
+            if title is None:
+                continue
+
+            title = title.text
+            categories = tag.find_all('a')
+            category_data = {'category': title, 'subcategories': []}
+
+            for category in categories:
+                category = category.text
+                category_links = self.get_links_from_category(category)
+
+                subcategory_data = {'category': category, 'articles': []}
+
+                for link in category_links:
+                    article = self.get_content(link)
+                    subcategory_data['articles'].append(article)
+
+                category_data['subcategories'].append(subcategory_data)
+
+            data.append(category_data)
+
+        return soup
