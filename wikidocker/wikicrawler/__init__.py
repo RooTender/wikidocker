@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 
 
 class WikiCrawler:
+    base_link = "https://simple.wikipedia.org"
+
     @staticmethod
     def __site_exist(url: str):
         """Verifies if given URL is valid"""
@@ -15,7 +17,7 @@ class WikiCrawler:
         return False
 
     def extract_links_from_category(self, category):
-        url = "https://simple.wikipedia.org/wiki/Category:" + category
+        url = self.base_link + "/wiki/Category:" + category
 
         if not self.__site_exist(url):
             return None
@@ -27,7 +29,7 @@ class WikiCrawler:
 
         links = []
         for link in soup:
-            links.append("https://simple.wikipedia.org" + link['href'])
+            links.append(self.base_link + link['href'])
 
         return links
 
