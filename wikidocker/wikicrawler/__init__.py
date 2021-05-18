@@ -34,7 +34,7 @@ class WikiCrawler:
 
         return text
 
-    def extract_links_from_category(self, category):
+    def get_links_from_category(self, category):
         url = self.base_link + "/wiki/Category:" + category
 
         if not self.__site_exist(url):
@@ -50,3 +50,6 @@ class WikiCrawler:
             links.append(self.base_link + link['href'])
 
         return links
+
+    def get_data(self):
+        return None
