@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 
 
 class WikiCrawler:
@@ -15,6 +16,23 @@ class WikiCrawler:
 
         print("Site does not exist! [" + url + "]")
         return False
+
+    def get_content(self, url):
+        if not self.__site_exist(url):
+            return None
+
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = soup.find(id='content')
+
+        text = soup.get_text()
+        text = text.split('\nRelated pages', 1)[0]
+        text = re.sub('(Jump to navigation|Jump to search)', '', text)
+        text = re.sub('[^a-zA-Z]+', ' ', text)
+        text = text.split()
+        text = [word.lower() for word in text]
+
+        return text
 
     def extract_links_from_category(self, category):
         url = self.base_link + "/wiki/Category:" + category
@@ -32,5 +50,3 @@ class WikiCrawler:
             links.append(self.base_link + link['href'])
 
         return links
-
-    # def get_categories_articles(self):
