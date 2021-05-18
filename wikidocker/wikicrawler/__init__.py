@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+from tqdm import tqdm
 
 
 class WikiCrawler:
@@ -14,7 +15,7 @@ class WikiCrawler:
         if request.status_code == 200:
             return True
 
-        print("Site does not exist! [" + url + "]")
+        # print("Site does not exist! [" + url + "]")
         return False
 
     def get_content(self, url):
@@ -43,6 +44,9 @@ class WikiCrawler:
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
         soup = soup.find(id='mw-pages')
+        if soup is None:
+            return None
+
         soup = soup.find_all('a', href=True)
 
         links = []
@@ -51,14 +55,33 @@ class WikiCrawler:
 
         return links
 
+    def __get_existing_category(self, category):
+        word = category.lower()
+        if word == 'farming':
+            return 'Farms'
+        elif word == 'industry':
+            return 'Industries'
+        elif word == 'custom':
+            return 'Traditions'
+        elif word == 'book':
+            return 'Books'
+        elif word == 'movies and films':
+            return 'Movies'
+        elif word == 'earth science':
+            return 'Earth sciences'
+        elif word == 'laws':
+            return 'Legislation'
+
+        return category
+
     def get_data(self):
         url = "https://simple.wikipedia.org/wiki/Main_Page"
 
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
         soup = soup.find(id='mf-know')
-        soup = soup.find('tbody').findNext('tbody')
-        soup = soup.find_all('td')
+        soup = soup.find('tbody')
+        soup = soup.find_all('td', style=None)
 
         data = []
 
@@ -70,19 +93,27 @@ class WikiCrawler:
             title = title.text
             categories = tag.find_all('a')
             category_data = {'category': title, 'subcategories': []}
+            print(title + ":")
 
             for category in categories:
                 category = category.text
+                category = self.__get_existing_category(category)
+
                 category_links = self.get_links_from_category(category)
+
+                if category_links is None:
+                    print(category + ": Category does not exist! Skipping...")
+                    continue
 
                 subcategory_data = {'category': category, 'articles': []}
 
-                for link in category_links:
+                for link in tqdm(category_links, desc=category):
                     article = self.get_content(link)
                     subcategory_data['articles'].append(article)
 
                 category_data['subcategories'].append(subcategory_data)
 
             data.append(category_data)
+            print()
 
-        return soup
+        return data
