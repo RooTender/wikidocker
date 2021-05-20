@@ -33,7 +33,10 @@ class WikiCrawler:
         text = text.split()
         text = [word.lower() for word in text]
 
-        return text
+        output = " "
+        output = output.join(text)
+
+        return output
 
     def get_links_from_category(self, category):
         url = self.base_link + "/wiki/Category:" + category
@@ -105,7 +108,7 @@ class WikiCrawler:
                     print(category + ": Category does not exist! Skipping...")
                     continue
 
-                subcategory_data = {'category': category, 'articles': []}
+                subcategory_data = {'name': category, 'articles': []}
 
                 for link in tqdm(category_links, desc=category):
                     article = self.get_content(link)
