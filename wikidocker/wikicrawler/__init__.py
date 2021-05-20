@@ -114,14 +114,13 @@ class WikiCrawler:
                     subcategory_data['articles'].append(article)
 
                 category_data['subcategories'].append(subcategory_data)
-                if serialize:
-                    with open("../wiki_dump.json", "w") as file:
-                        json.dump(category_data, file)
-                    file.close()
 
             data.append(category_data)
             print()
 
-
+        if serialize:
+            with open("../wiki_dump.json", "w") as file:
+                json.dump(data, file)
+            file.close()
 
         return data
