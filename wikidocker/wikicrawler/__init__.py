@@ -108,7 +108,7 @@ class WikiCrawler:
                     print(category + ": Category does not exist! Skipping...")
                     continue
 
-                subcategory_data = {'category': category, 'articles': []}
+                subcategory_data = {'name': category, 'articles': []}
 
                 for link in tqdm(category_links, desc=category):
                     article = self.get_content(link)
