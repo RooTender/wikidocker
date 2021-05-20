@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from tqdm import tqdm
+import json
 
 
 class WikiCrawler:
@@ -28,7 +29,7 @@ class WikiCrawler:
 
         text = soup.get_text()
         text = text.split('\nRelated pages', 1)[0]
-        text = re.sub('(Jump to navigation|Jump to search)', '', text)
+        text = re.sub('(jump to navigation|jump to search|id category|hidden category stubs|from simple english wikipedia, the free encyclopedia)', '', text.lower())
         text = re.sub('[^a-zA-Z]+', ' ', text)
         text = text.split()
         text = [word.lower() for word in text]
@@ -77,7 +78,7 @@ class WikiCrawler:
 
         return category
 
-    def get_data(self):
+    def get_data(self, serialize=False):
         url = "https://simple.wikipedia.org/wiki/Main_Page"
 
         response = requests.get(url)
@@ -115,8 +116,14 @@ class WikiCrawler:
                     subcategory_data['articles'].append(article)
 
                 category_data['subcategories'].append(subcategory_data)
+                if serialize:
+                    with open("../wiki_dump.json", "w") as file:
+                        json.dump(category_data, file)
+                    file.close()
 
             data.append(category_data)
             print()
+
+
 
         return data
