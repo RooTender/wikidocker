@@ -33,7 +33,10 @@ class WikiCrawler:
         text = text.split()
         text = [word.lower() for word in text]
 
-        return text
+        output = " "
+        output = output.join(text)
+
+        return output
 
     def get_links_from_category(self, category):
         url = self.base_link + "/wiki/Category:" + category
