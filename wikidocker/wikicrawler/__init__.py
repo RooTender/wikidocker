@@ -26,18 +26,16 @@ class WikiCrawler:
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
         soup = soup.find(id='content')
+        soup = soup.find_all('p')
 
-        text = soup.get_text()
-        text = text.split('\nRelated pages', 1)[0]
-        text = re.sub('(jump to navigation|jump to search|id category|hidden category stubs|from simple english wikipedia, the free encyclopedia)', '', text.lower())
-        text = re.sub('[^a-zA-Z]+', ' ', text)
-        text = text.split()
-        text = [word.lower() for word in text]
+        text = ""
+        for paragraph in soup:
+            paragraph = paragraph.get_text().lower()
+            paragraph = re.sub('[^a-zA-Z]+', ' ', paragraph)
+            paragraph = " ".join(paragraph.split())
+            text = "{0} {1}".format(text, paragraph)
 
-        output = " "
-        output = output.join(text)
-
-        return output
+        return text
 
     def get_links_from_category(self, category):
         url = self.base_link + "/wiki/Category:" + category
