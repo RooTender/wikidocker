@@ -23,7 +23,7 @@ def create_sets(file_data_set):
     tokenizer = RegexpTokenizer(r'\w+')
     snowball = SnowballStemmer(language='english')
 
-    for dict in tqdm(file_data_set):  # dict includes (category:"", subcategories:[])
+    for dict in tqdm(file_data_set, desc='Creating train and test set'):  # dict includes (category:"", subcategories:[])
         for subcat in dict['subcategories']:  # subcat is dictionary (name:"", articles:[])
             for article in subcat['articles']:  # article is string
                 label = dict["category"]
@@ -32,7 +32,7 @@ def create_sets(file_data_set):
                 data_set.append((label, stemmed_msg))
 
     train_set, test_set = sklearn.model_selection.train_test_split(data_set, train_size=0.8)
-    print(f'Train len: {len(train_set)}. Test len: {len(test_set)} \n')
+    # print(f'Train len: {len(train_set)}. Test len: {len(test_set)} \n')
 
     classes = [dict["category"] for dict in file_data_set]
 
@@ -46,7 +46,7 @@ def train_naive_bayes(train_set, classes):
 
     train_class_cnts = Counter([])
 
-    for i in tqdm(range(len(train_set))):
+    for i in tqdm(range(len(train_set)), desc='Creating train counter'):
         for j in range(len(classes)):
             if train_set[i][0] == classes[j]:
                 for k in range(len(train_set[i][1])):
@@ -55,7 +55,16 @@ def train_naive_bayes(train_set, classes):
 
                 break
 
+    serialize_train_dicts(train_dicts, False)
+
     return train_dicts, train_class_cnts
+
+
+def serialize_train_dicts(train_dicts, serialize=False):
+    if serialize:
+        with open("../../train_dicts.json", "w") as file:
+            json.dump(train_dicts, file)
+        file.close()
 
 
 def show_categories(stage, classes, data_class_cnts):
@@ -66,31 +75,62 @@ def show_categories(stage, classes, data_class_cnts):
         print("{:.3f}% of messages was {}.".format(class_size_perc, classes[i].upper()))
 
 
-def qualify(test_set, train_dicts, classes):
-    """Qualify test set"""
+def qualify(article_words, all_words, classes, train_dicts):
+    """return class of article"""
     alpha = 0.001
+    prob_vector = np.zeros(len(classes))
+
+    for j in range(len(classes)):
+        for word in article_words:
+            prob_vector[j] += train_dicts[j][word]
+
+        words_number_class = sum(train_dicts[j].values())
+        prob_vector[j] += alpha
+        prob_vector[j] = prob_vector[j] / (words_number_class + (all_words * alpha))
+
+    max_class_index, _ = max(enumerate(prob_vector), key=operator.itemgetter(1))
+
+    return classes[max_class_index]
+
+
+def qualify_test_set(test_set, train_dicts, classes):
+    """Qualify test set"""
+
+    all_words = sum([sum(train_dicts[i].values()) for i in range(len(classes))])
     test_class_cnts = Counter([])
     corr_ans = 0
-    all_words = sum([sum(train_dicts[i].values()) for i in range(len(classes))])
 
-    """ Qualify test messages. """
     for i in tqdm(range(len(test_set))):
-        prob_vector = np.zeros(len(classes))
-        for j in range(len(classes)):
-            for word in test_set[i][1]:
-                prob_vector[j] += train_dicts[j][word]
 
-            words_number_class = sum(train_dicts[j].values())
-            prob_vector[j] += alpha
-            prob_vector[j] = prob_vector[j] / (words_number_class + (all_words * alpha))
-
-        max_class_index, prob = max(enumerate(prob_vector), key=operator.itemgetter(1))
-        if test_set[i][0] == classes[max_class_index]:
+        article_class = qualify(test_set[i][1], all_words, classes, train_dicts)
+        if test_set[i][0] == article_class:
             corr_ans += 1
-
         test_class_cnts[test_set[i][0]] += 1
 
     return test_class_cnts, corr_ans
+
+
+def qualify_article(train_dicts, classes):
+    """qualifies article - the content of article is scan from console"""
+    # """qualifies article - the content of article is in file: 'custom_dump.json'"""
+    # with open("../../custom_dump.json", "r", encoding="utf8") as my_file_read:
+    #     article = json.load(my_file_read)
+    # my_file_read.close()
+
+    article = input("Enter your article: ")
+
+    tokenizer = RegexpTokenizer(r'\w+')
+    snowball = SnowballStemmer(language='english')
+
+    tokenized_msg = tokenizer.tokenize(article)
+    stemmed_msg = [snowball.stem(token) for token in tokenized_msg]
+    data_set = set(stemmed_msg)
+
+    all_words = sum([sum(train_dicts[i].values()) for i in range(len(classes))])
+
+    article_class = qualify(data_set, all_words, classes, train_dicts)
+
+    print('\nArticle was qualified as: ' + article_class)
 
 
 if __name__ == '__main__':
@@ -103,8 +143,10 @@ if __name__ == '__main__':
 
     show_categories('TRAINING', classes, train_class_cnts)
 
-    test_class_cnts, corr_ans = qualify(test_set, train_dicts, classes)
+    test_class_cnts, corr_ans = qualify_test_set(test_set, train_dicts, classes)
 
     show_categories('TEST', classes, test_class_cnts)
 
     print("\n### CORRECTNESS ###\n{:.3f}% of articles was qualified correctly.".format((corr_ans/len(test_set))*100))
+
+    qualify_article(train_dicts, classes)
