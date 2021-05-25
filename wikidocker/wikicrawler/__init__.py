@@ -130,6 +130,7 @@ class WikiCrawler:
     #
 
     def get_content_custom_site(self, url):
+        """gets article by getting content of all <p> tags from website"""
         if not self.__site_exist(url):
             return None
 
@@ -149,10 +150,12 @@ class WikiCrawler:
         return text
 
     def get_data_custom_site(self, url, serialize=False):
-
+        """serialize and returns article from custom website"""
         data = self.get_content_custom_site(url)
 
         if serialize:
-            with open("../custom_dump.json", "w") as file:
+            with open("data_to_qualify/custom_dump.json", "w") as file:
                 json.dump(data, file)
             file.close()
+
+        return data
