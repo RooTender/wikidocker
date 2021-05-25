@@ -124,3 +124,37 @@ class WikiCrawler:
             file.close()
 
         return data
+
+    #
+    # functions to precess custom site content
+    #
+
+    def get_content_custom_site(self, url):
+        if not self.__site_exist(url):
+            return None
+
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        # skipping need to find a html tag with article/text -> taking every paragragh
+        # soup = soup.find(id='content')
+        soup = soup.find_all('p')
+
+        text = ""
+        for paragraph in soup:
+            paragraph = paragraph.get_text().lower()
+            paragraph = re.sub('[^a-zA-Z]+', ' ', paragraph)
+            paragraph = " ".join(paragraph.split())
+            text = "{0} {1}".format(text, paragraph)
+
+        return text
+
+    def get_data_custom_site(self, url, serialize=False):
+
+        article = self.get_content_custom_site(url)
+
+        print(article)
+
+        # if serialize:
+        #     with open("../custom_dump.json", "w") as file:
+        #         json.dump(data, file)
+        #     file.close()
