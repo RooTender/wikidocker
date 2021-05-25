@@ -150,11 +150,9 @@ class WikiCrawler:
 
     def get_data_custom_site(self, url, serialize=False):
 
-        article = self.get_content_custom_site(url)
+        data = self.get_content_custom_site(url)
 
-        print(article)
-
-        # if serialize:
-        #     with open("../custom_dump.json", "w") as file:
-        #         json.dump(data, file)
-        #     file.close()
+        if serialize:
+            with open("../custom_dump.json", "w") as file:
+                json.dump(data, file)
+            file.close()
