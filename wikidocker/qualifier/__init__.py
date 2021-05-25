@@ -102,7 +102,7 @@ def qualify_test_set(test_set, train_dicts, classes):
 
     for i in tqdm(range(len(test_set))):
 
-        article_class = qualify(test_set[i][1], all_words, classes)
+        article_class = qualify(test_set[i][1], all_words, classes, train_dicts)
         if test_set[i][0] == article_class:
             corr_ans += 1
         test_class_cnts[test_set[i][0]] += 1
