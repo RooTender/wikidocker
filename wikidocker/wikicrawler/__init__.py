@@ -16,16 +16,22 @@ class WikiCrawler:
         if request.status_code == 200:
             return True
 
-        # print("Site does not exist! [" + url + "]")
         return False
 
-    def get_content(self, url):
-        if not self.__site_exist(url):
-            return None
+    @staticmethod
+    def __clean_article(article):
+        with open("./wikicrawler/redundant_terms.json") as file:
+            redundant_terms = json.load(file)
+        file.close()
 
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        soup = soup.find(id='content')
+        article = article.split()
+
+        for lemma in redundant_terms:
+            article = list(filter(lambda x: x not in list(lemma.values())[0], article))
+
+        return ' '.join(article)
+
+    def __format_content(self, soup):
         soup = soup.find_all('p')
 
         text = ""
@@ -35,7 +41,17 @@ class WikiCrawler:
             paragraph = " ".join(paragraph.split())
             text = "{0} {1}".format(text, paragraph)
 
-        return text
+        return self.__clean_article(text)
+
+    def get_content(self, url):
+        if not self.__site_exist(url):
+            return None
+
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = soup.find(id='content')
+
+        return self.__format_content(soup)
 
     def get_links_from_category(self, category):
         url = self.base_link + "/wiki/Category:" + category
@@ -57,7 +73,8 @@ class WikiCrawler:
 
         return links
 
-    def __get_existing_category(self, category):
+    @staticmethod
+    def __get_existing_category(category):
         word = category.lower()
         if word == 'farming':
             return 'Farms'
@@ -111,6 +128,7 @@ class WikiCrawler:
 
                 for link in tqdm(category_links, desc=category):
                     article = self.get_content(link)
+
                     subcategory_data['articles'].append(article)
 
                 category_data['subcategories'].append(subcategory_data)
@@ -125,10 +143,6 @@ class WikiCrawler:
 
         return data
 
-    #
-    # functions to precess custom site content
-    #
-
     def get_content_custom_site(self, url):
         """gets article by getting content of all <p> tags from website"""
         if not self.__site_exist(url):
@@ -136,18 +150,8 @@ class WikiCrawler:
 
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
-        # skipping need to find a html tag with article/text -> taking every paragragh
-        # soup = soup.find(id='content')
-        soup = soup.find_all('p')
 
-        text = ""
-        for paragraph in soup:
-            paragraph = paragraph.get_text().lower()
-            paragraph = re.sub('[^a-zA-Z]+', ' ', paragraph)
-            paragraph = " ".join(paragraph.split())
-            text = "{0} {1}".format(text, paragraph)
-
-        return text
+        return self.__format_content(soup)
 
     def get_data_custom_site(self, url, serialize=False):
         """serialize and returns article from custom website"""
