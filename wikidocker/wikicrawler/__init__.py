@@ -76,6 +76,27 @@ class WikiCrawler:
 
         return category
 
+    @staticmethod
+    def clean_article(article):
+        with open("./wikicrawler/redundant_terms.json") as file:
+            redundant_terms = json.load(file)
+        file.close()
+
+        article = article.split()
+
+        for lemma in redundant_terms:
+            article = list(filter(lambda x: x not in list(lemma.values())[0], article))
+
+        # for lemma in redundant_terms:
+        #     for word in list(lemma.values())[0]:  # inner list bug
+        #         if word == 'and':
+        #             print('!')
+        #
+        #         if word in article:
+        #             article.remove(word)
+
+        return ' '.join(article)
+
     def get_data(self, serialize=False):
         url = "https://simple.wikipedia.org/wiki/Main_Page"
 
@@ -111,6 +132,8 @@ class WikiCrawler:
 
                 for link in tqdm(category_links, desc=category):
                     article = self.get_content(link)
+                    article = self.clean_article(article)
+
                     subcategory_data['articles'].append(article)
 
                 category_data['subcategories'].append(subcategory_data)
