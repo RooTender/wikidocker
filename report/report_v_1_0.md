@@ -10,7 +10,7 @@ Wikidocker, czyli szybki i nie tak naiwny klasyfikator Bayesa, jakby mogło się
 
 ### Cel
 
-Wikidocker ma za zadanie kwalifikować artykuł anglojęzyczny do najbardziej prawdopodobnej kategorii z 6 głównych (dostępnych w simple wikipedia). 
+Wikidocker ma za zadanie kwalifikować artykuł anglojęzyczny do najbardziej prawdopodobnej kategorii z 6 głównych, dostępnych w simple wikipedia. 
 
 
 
@@ -85,19 +85,19 @@ Mając gotowe słowniki klas, mamy pewność, że sam proces kwalifikacji będzi
 
 Poniższa grafika obrazuje objętość każdej z 6 klas w zbiorze uczącym.
 
-![](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\materiały sprawozdanie\training.JPG)
+![training](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\training.JPG)
 
 
 
 Poniższa grafika obrazuje objętość każdej z 6 klas w zbiorze testowym.
 
-![](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\materiały sprawozdanie\test.JPG)
+![test](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\test.JPG)
 
 
 
 Poniższa grafika określa poprawność decyzji, podejmowanych przez kwalifikator.
 
-![](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\materiały sprawozdanie\correctnsess.JPG)
+![correctness](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\correctness.JPG)
 
 
 
