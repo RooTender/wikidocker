@@ -149,7 +149,7 @@ class WikiCrawler:
 
         return text
 
-    def get_data_custom_site(self, url, serialize=False):
+    def get_data_custom_site(self, url, serialize=True):
         """serialize and returns article from custom website"""
         data = self.get_content_custom_site(url)
 
