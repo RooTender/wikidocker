@@ -16,7 +16,7 @@ class WikiCrawler:
         if request.status_code == 200:
             return True
 
-        return False
+        raise Exception("Website return " + str(request.status_code))
 
     @staticmethod
     def __clean_article(article):
@@ -153,13 +153,12 @@ class WikiCrawler:
 
         return self.__format_content(soup)
 
-    def get_data_custom_site(self, url, serialize=False):
+    def get_data_custom_site(self, url):
         """serialize and returns article from custom website"""
         data = self.get_content_custom_site(url)
 
-        if serialize:
-            with open("data_to_qualify/custom_dump.json", "w") as file:
-                json.dump(data, file)
-            file.close()
+        with open("data_to_qualify/custom_dump.json", "w") as file:
+            json.dump(data, file)
+        file.close()
 
         return data

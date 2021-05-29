@@ -50,7 +50,6 @@ def train_naive_bayes(train_set, classes):
         for j in range(len(classes)):
             if train_set[i][0] == classes[j]:
                 for k in range(len(train_set[i][1])):
-                    train_class_cnts[train_set[i][0]] += 1  # czy to jest wgl potrzebne!!?
                     train_dicts[j][train_set[i][1][k]] += 1
 
                 break
@@ -65,13 +64,12 @@ def serialize_obj(name, obj, serialize=False):
         file.close()
 
 
-if __name__ == '__main__':
-    file_data_set = read_data()
+def train():
 
+    file_data_set = read_data()
     classes, train_set, test_set = create_sets(file_data_set)
-    generate_files = False
-    serialize_obj('classes', classes, generate_files)
-    serialize_obj('test_set', test_set, generate_files)
+    serialize_obj('classes', classes, True)
+    serialize_obj('test_set', test_set, True)
     train_dicts = train_naive_bayes(train_set, classes)
-    serialize_obj('train_dicts', train_dicts, generate_files)
+    serialize_obj('train_dicts', train_dicts, True)
 
