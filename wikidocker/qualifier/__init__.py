@@ -45,7 +45,7 @@ class Qualifier:
         train_class_cnts = Counter([])
         for i in range(len(self.classes)):
             train_class_cnts[self.classes[i]] = sum(self.train_dicts[i].values())
-        self.show_categories('TRAINING', train_class_cnts)
+        #self.show_categories('TRAINING', train_class_cnts)
 
         test_set = self.read_data("test_set.json")
         test_class_cnts = Counter([])
@@ -57,10 +57,10 @@ class Qualifier:
                 corr_ans += 1
             test_class_cnts[test_set[i][0]] += 1
 
-        self.show_categories('TEST', test_class_cnts)
+        #self.show_categories('TEST', test_class_cnts)
 
-        print("\n### CORRECTNESS ###\n{:.3f}% of articles was qualified correctly.\n".format(
-            (corr_ans / len(test_set)) * 100))
+        #print("\n### CORRECTNESS ###\n{:.3f}% of articles was qualified correctly.\n".format(
+        #    (corr_ans / len(test_set)) * 100))
 
     def show_categories(self, stage, data_class_cnts):
         """ Show size categories percentage. """

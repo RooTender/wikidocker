@@ -31,7 +31,7 @@ def create_sets(file_data_set):
                 stemmed_msg = [snowball.stem(token) for token in tokenized_msg]
                 data_set.append((label, stemmed_msg))
 
-    train_set, test_set = sklearn.model_selection.train_test_split(data_set, train_size=0.99)
+    train_set, test_set = sklearn.model_selection.train_test_split(data_set, train_size=0.999)
     print(f'Train len: {len(train_set)}. Test len: {len(test_set)} \n')
 
     classes = [dict["category"] for dict in file_data_set]
