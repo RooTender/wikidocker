@@ -17,7 +17,7 @@ if __name__ == '__main__':
     tokenizer = RegexpTokenizer(r'\w+')
     snowball = SnowballStemmer(language='english')
 
-    with open("../../full_wiki_dump.json", "r", encoding="utf8") as my_file_read:
+    with open("../../wiki_dump.json", "r", encoding="utf8") as my_file_read:
         file_data_set = json.load(my_file_read)
 
     my_file_read.close()
