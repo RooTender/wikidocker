@@ -10,12 +10,11 @@ import numpy as np
 class Qualifier:
 
     def __init__(self):
-        self.classes = self.__read_data("classes.json")
-        self.train_dicts = self.__read_data("train_dicts.json")
+        self.classes = self.read_data("classes.json")
+        self.train_dicts = self.read_data("train_dicts.json")
         self.all_words = sum([sum(self.train_dicts[i].values()) for i in range(len(self.classes))])
 
-    @staticmethod
-    def __read_data(filename):
+    def read_data(self, filename):
         """read json data from file"""
         with open("data_to_qualify/" + filename, "r", encoding="utf8") as file:
             data = json.load(file)
@@ -41,14 +40,14 @@ class Qualifier:
         return self.classes[max_class_index]
 
     def qualify_test_set(self):
-        """Qualify test set read from file"""
+        """Qualify test set readed from file"""
         # display proportion of categories in train set
         train_class_cnts = Counter([])
         for i in range(len(self.classes)):
             train_class_cnts[self.classes[i]] = sum(self.train_dicts[i].values())
-        self.__show_categories('TRAINING', train_class_cnts)
+        #self.show_categories('TRAINING', train_class_cnts)
 
-        test_set = self.__read_data("test_set.json")
+        test_set = self.read_data("test_set.json")
         test_class_cnts = Counter([])
         corr_ans = 0
 
@@ -58,12 +57,12 @@ class Qualifier:
                 corr_ans += 1
             test_class_cnts[test_set[i][0]] += 1
 
-        self.__show_categories('TEST', test_class_cnts)
+        #self.show_categories('TEST', test_class_cnts)
 
-        print("\n### CORRECTNESS ###\n{:.3f}% of articles was qualified correctly.\n".format(
-            (corr_ans / len(test_set)) * 100))
+        #print("\n### CORRECTNESS ###\n{:.3f}% of articles was qualified correctly.\n".format(
+        #    (corr_ans / len(test_set)) * 100))
 
-    def __show_categories(self, stage, data_class_cnts):
+    def show_categories(self, stage, data_class_cnts):
         """ Show size categories percentage. """
         print("\n\n### " + stage + " ###")
         for i in range(len(self.classes)):
@@ -71,7 +70,7 @@ class Qualifier:
             print("{:.3f}% of messages was {}.".format(class_size_perc, self.classes[i].upper()))
 
     @staticmethod
-    def __process_article(article):
+    def process_article(article):
         """function tokenizes article and removes ending from the words"""
         tokenizer = RegexpTokenizer(r'\w+')
         snowball = SnowballStemmer(language='english')
@@ -82,13 +81,13 @@ class Qualifier:
     def qualify_article_from_console(self):
         """qualifies article scanned from console"""
         article = input("Enter your article: ")
-        data_set = set(self.__process_article(article))
+        data_set = set(self.process_article(article))
         article_class = self.qualify(data_set)
         print('\nArticle was qualified as: ' + article_class)
 
     def qualify_article_from_file(self, filename):
-        """qualifies article read from file (preprocessed by Crawler)"""
-        article = self.__read_data(filename)
-        data_set = set(self.__process_article(article))
+        """qualifies article readed from file (preprocessed by Crawler)"""
+        article = self.read_data(filename)
+        data_set = set(self.process_article(article))
         article_class = self.qualify(data_set)
         print('\nArticle was qualified as: ' + article_class)
