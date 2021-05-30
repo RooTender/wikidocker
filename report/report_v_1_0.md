@@ -91,7 +91,7 @@ Program kolejno:
 
 ## Wyniki
 
-#### Wyniki dla zbioru testowego
+### Wyniki dla zbioru testowego
 
 Wynik poprawności nauczonego kwalifikatora odnosi się do proporcji 0.8 w generowaniu zbiorów testowych. Przy kwalifikowaniu artykułów użyta jest proporcja 0.999 tak aby zbiór treningowy był jak największy.
 
@@ -104,7 +104,7 @@ Poniższe dane określa najlepszą poprawność decyzji, podjętej przez kwalifi
 
 
 
-#### Przykłady artykułów testowych
+### Przykłady artykułów testowych
 
 Applied sciences: 
 
@@ -154,7 +154,7 @@ Religions and beliefs:
 
 
 
-#### Czy rezultat jest zadowalający?
+### Czy rezultat jest zadowalający?
 
 Biorąc pod uwagę, że szansa wylosowania prawidłowej kategorii bez żadnej wiedzy, jest równa ~17%, wyniki sięgające nawet 50% (średnio 47%) są ogromną wartością dodaną, przy tak niskim czasie samej decyzji.
 
