@@ -16,9 +16,13 @@ Kategoria wyjściowa byłaby rekomendacją, która mogłaby znaleźć zastosowan
 
 ### Wykorzystana technologia
 
-W projekcie użyty został naiwny klasyfikator Bayesowski wsparty techniką *stemmingu* (usuwanie końcówki wyrazu zostawiając tylko jego temat) do kwalifikacji wiadomości. 
+W projekcie użyty został naiwny klasyfikator Bayesowski wsparty techniką *stemmingu* (usuwanie końcówki wyrazu zostawiając tylko jego temat) do kwalifikacji wiadomości.
 
-> *można tu dać ewentualnie wzór i opis wzoru*
+Wzór, który został zastosowany, wygląda następująco:
+$$
+P(X_i|y) = {{N_{X_i|y} + \alpha} \over {N_y + \alpha \cdot |V|}}
+$$
+
 
 
 
