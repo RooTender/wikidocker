@@ -23,6 +23,17 @@ $$
 P(X_i|y) = {{N_{X_i|y} + \alpha} \over {N_y + \alpha \cdot |V|}}
 $$
 
+Opis symboli:
+
+|      Symbol       |                             Opis                             |
+| :---------------: | :----------------------------------------------------------: |
+|  $$ P(X_i|y) $$   | Prawdopodobieństwo warunkowe słowa $$ X_i $$ należącego do klasy $$ y $$ |
+| $$ {N_{X_i|y}} $$ | Liczba wystąpień słowa $$ X_i $$ we wszystkich fragmentach należących do klasy $$ y $$ |
+|     $$ N_y $$     | Liczba słów we wszystkich fragmentach należących do klasy $$ y $$ |
+|     $$ |V| $$     |               Całkowita liczba słów w słowniku               |
+|   $$ \alpha $$    |    Parametr służący uniknięciu prawdopodobieństw zerowych    |
+
+
 
 #### Biblioteki
 
