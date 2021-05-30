@@ -24,8 +24,6 @@ P(X_i|y) = {{N_{X_i|y} + \alpha} \over {N_y + \alpha \cdot |V|}}
 $$
 
 
-
-
 #### Biblioteki
 
 Do wyciągnięcia artykułów dla zbioru uczącego posłużyliśmy się bibliotekami:
