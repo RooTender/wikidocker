@@ -83,19 +83,9 @@ Mając gotowe słowniki klas, mamy pewność, że sam proces kwalifikacji będzi
 
 #### Wyniki dla zbioru testowego.
 
-Poniższa grafika obrazuje objętość każdej z 6 klas w zbiorze uczącym.
+###### Wynik poprawności nauczonego kwalifikatora odnosi się do proporcji 0.8 w generowaniu zbiorów testowych. Przy kwalifikowaniu artykułów użyta jest proporcja 0.999 tak aby zbiór treningowy był jak największy.
 
-![training](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\training.JPG)
-
-
-
-Poniższa grafika obrazuje objętość każdej z 6 klas w zbiorze testowym.
-
-![test](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\test.JPG)
-
-
-
-Poniższa grafika określa poprawność decyzji, podejmowanych przez kwalifikator.
+Poniższa grafika określa poprawność decyzji, podejmowanych przez kwalifikator przy proporcji zbiorów 0.8.
 
 ![correctness](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\correctness.JPG)
 
@@ -103,7 +93,43 @@ Poniższa grafika określa poprawność decyzji, podejmowanych przez kwalifikato
 
 #### Kilka próbnych wyników dla różnych artykułów.
 
-//////[link do artykułu, krótko o jego specyfice (czy jest bardzo ukierunkowany czy nie), wynik algorytmu] x **n**, gdzie **n** to liczba próbek (artykułów) które chcemy pokazać///////
+###### Przy proporcji zbiorów 0.999.
+
+Applied sciences: 
+
+https://www.dwell.com/article/alaska-the-final-architectural-frontier-78478d79 
+
+https://encyclopedia2.thefreedictionary.com/modern+architecture   
+
+People and social studies: 
+
+https://www.sciencenewsforstudents.org/article/scientists-say-placebo 
+
+https://www.psyarticles.com/health/student-mental-health-problems.htm   
+
+Government and law :
+
+https://theconversation.com/polands-judges-forced-into-retirement-purgatory-another-blow-to-justice-99478 
+
+http://www.inquiriesjournal.com/articles/1806/the-effectiveness-of-the-international-criminal-court-challenges-and-pathways-for-prosecuting-human-rights-violations   
+
+Natural sciences and maths: 
+
+https://www.sciencenewsforstudents.org/article/the-pebbled-path-to-planet-formation 
+
+https://www.sciencenewsforstudents.org/article/scientists-say-pollen   
+
+Daily life, art and culture: 
+
+https://www.britannica.com/art/Pop-art 
+
+https://news.artnet.com/art-world/jean-shin-recipe-1974723   
+
+Religions and beliefs:
+
+https://www.christianitytoday.com/news/international/ 
+
+https://www.history.com/topics/religion/islam
 
 
 

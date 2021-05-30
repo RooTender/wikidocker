@@ -11,7 +11,7 @@ import numpy as np
 
 def read_data():
     """read json data from file"""
-    with open("../../wiki_dump.json", "r", encoding="utf8") as my_file_read:
+    with open("../wiki_dump.json", "r", encoding="utf8") as my_file_read:
         file_data = json.load(my_file_read)
     my_file_read.close()
     return file_data
@@ -59,7 +59,7 @@ def train_naive_bayes(train_set, classes):
 
 def serialize_obj(name, obj, serialize=False):
     if serialize:
-        with open("../data_to_qualify/" + name + ".json", "w") as file:
+        with open("./data_to_qualify/" + name + ".json", "w") as file:
             json.dump(obj, file)
         file.close()
 
