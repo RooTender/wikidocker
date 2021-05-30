@@ -52,7 +52,8 @@ Dane o poprawności niniejszego kwalifikatora opierały się na zbiorze testowym
 
 #### Pobranie artykułów.
 
-Jest to najdłuższy proces ze wszystkich. W obecnej wersji ten proces może zająć nawet kilkadziesiąt minut. Nie jest on jednak brany pod uwagę, ponieważ można go zrobić tylko raz (lub też w sytuacji gdy chcemy zaktualizować bazę artykułów) i bazować na zserializowanym "dumpie".
+Jest to najdłuższy proces ze wszystkich. W obecnej wersji ten proces może zająć nawet kilkadziesiąt minut. Nie jest on jednak brany pod uwagę, ponieważ można go zrobić tylko raz (lub też w sytuacji gdy chcemy zaktualizować bazę artykułów) i bazować na zserializowanym "dumpie". 
+Przy pobieraniu, każdy artykuł przechodzi przez proces usuwania półsłówek, które źle wpływają na rezultaty. Dzięki temu, słowa kluczowe mają większą szansę w słownikach.
 
 
 
@@ -85,13 +86,13 @@ Mając gotowe słowniki klas, mamy pewność, że sam proces kwalifikacji będzi
 
 ###### Wynik poprawności nauczonego kwalifikatora odnosi się do proporcji 0.8 w generowaniu zbiorów testowych. Przy kwalifikowaniu artykułów użyta jest proporcja 0.999 tak aby zbiór treningowy był jak największy.
 
-Poniższa grafika określa poprawność decyzji, podejmowanych przez kwalifikator przy proporcji zbiorów 0.8.
+Poniższa grafika określa najlepszą poprawność decyzji, podjętej przez kwalifikator przy proporcji zbiorów 0.8.
 
-![correctness](D:\PG\4 SEMESTR\Sztuczna Inteligencja\wikidocker\report\correctness.JPG)
+![correctness](.\correctness.JPG)
 
 
 
-#### Kilka próbnych wyników dla różnych artykułów.
+#### Kilka poprawnie skwalifikowanych artykułów.
 
 ###### Przy proporcji zbiorów 0.999.
 
@@ -137,15 +138,7 @@ https://www.history.com/topics/religion/islam
 
 #### Czy rezultat jest zadowalający?
 
-Biorąc pod uwagę, że szansa wylosowania prawidłowej kategorii bez żadnej wiedzy, jest równa ~17%, wyniki sięgające nawet 41% są ogromną wartością dodaną, przy tak niskim czasie samej decyzji. 
-
-
-
-#### Jak poprawić wynik?
-
-**Usunięcie "półsłówek".**
-
-Jedną z możliwości jest usunięcie nieważnych słów takich jak "and", "or" itp. Tego typu słowa mają tendencję do występowania częściej w pewnych kategoriach, przez co zawyżają obliczenia, a nic merytorycznego nie wnoszą. Dzięki ich usunięciu, większą rolę będą grały słowa kluczowe dla danej kategorii.
+Biorąc pod uwagę, że szansa wylosowania prawidłowej kategorii bez żadnej wiedzy, jest równa ~17%, wyniki sięgające nawet 50% (średnio 47%) są ogromną wartością dodaną, przy tak niskim czasie samej decyzji. Wynik jest na poziomie losowego prawdopodobieństwa wybrania jednej z dwóch klas, mimo że mamy 6!
 
 
 
