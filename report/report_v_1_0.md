@@ -6,7 +6,7 @@ Autorzy: Jan Kornacki, Hubert Lewandowski, Grzegorz Pozorski
 
 ## Wstęp
 
-**Wikidocker**, czyli szybki i nie tak naiwny klasyfikator Bayesa, jakby mogło się wydawać. Program ma za zadanie kwalifikować artykuł anglojęzyczny do najbardziej prawdopodobnej kategorii z 6 głównych, dostępnych na [Simple Wikipedia](https://simple.wikipedia.org/wiki/Main_Page).
+**Wikidocker**, czyli szybki i nie tak naiwny klasyfikator Bayesa, jakby mogło się wydawać. Program ma kwalifikuje artykuł anglojęzyczny do najbardziej prawdopodobnej kategorii z 6 głównych, dostępnych na [Simple Wikipedia](https://simple.wikipedia.org/wiki/Main_Page).
 
 Kategoria wyjściowa byłaby rekomendacją, która mogłaby znaleźć zastosowanie w kategoryzowaniu choćby nowych artykułów. Przykładowo taki program mógłby mieć zastosowanie do automatyzacji tworzenia nawigacji na stronach internetowych z olbrzymimi bazami danych.
 
@@ -18,7 +18,7 @@ Kategoria wyjściowa byłaby rekomendacją, która mogłaby znaleźć zastosowan
 
 W projekcie użyty został naiwny klasyfikator Bayesowski wsparty techniką *stemmingu* (usuwanie końcówki wyrazu zostawiając tylko jego temat) do kwalifikacji wiadomości.
 
-Wzór, który został zastosowany, wygląda następująco:
+Wzór, którego użyliśmy, wygląda następująco:
 $$
 P(X_i|y) = {{N_{X_i|y} + \alpha} \over {N_y + \alpha \cdot |V|}}
 $$
@@ -170,6 +170,3 @@ Religions and beliefs:
 Biorąc pod uwagę, że szansa wylosowania prawidłowej kategorii bez żadnej wiedzy, jest równa ~17%, wyniki sięgające nawet 50% (średnio 47%) są ogromną wartością dodaną, przy tak niskim czasie samej decyzji.
 
 Wynik jest na poziomie losowego prawdopodobieństwa wybrania jednej z dwóch klas, mimo że mamy 6!
-
-
-
