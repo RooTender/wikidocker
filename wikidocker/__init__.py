@@ -3,14 +3,10 @@ import qualifier
 import trainer
 
 if __name__ == '__main__':
-
     crawler = wikicrawler.WikiCrawler()
-    # data = crawler.get_data(True)
-    crawler.get_data_custom_site('https://www.history.com/topics/religion/islam')
 
-    # trainer.train()
-    
+    input_data = input('Enter site to qualify: ')
+    crawler.get_data_custom_site(input_data)
+
     qualifier = qualifier.Qualifier()
-    # qualifier.qualify_test_set()
-    # qualifier.qualify_article_from_console()
     qualifier.qualify_article_from_file('custom_dump.json')
